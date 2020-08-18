@@ -189,6 +189,28 @@ namespace SaleApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("SaleApi.Models.Product", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Detail");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasMaxLength(50);
+
+                    b.Property<double>("Price");
+
+                    b.HasKey("ID");
+
+                    b.HasAlternateKey("Name");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("SaleApi.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");

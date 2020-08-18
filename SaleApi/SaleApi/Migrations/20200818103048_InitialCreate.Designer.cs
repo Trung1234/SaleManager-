@@ -10,7 +10,7 @@ using SaleApi.Models;
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    [Migration("20200818021813_InitialCreate")]
+    [Migration("20200818103048_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -189,6 +189,28 @@ namespace SaleApi.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("SaleApi.Models.Product", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Detail");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasMaxLength(50);
+
+                    b.Property<double>("Price");
+
+                    b.HasKey("ID");
+
+                    b.HasAlternateKey("Name");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("SaleApi.Models.ApplicationUser", b =>
