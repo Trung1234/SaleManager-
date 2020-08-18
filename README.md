@@ -1,5 +1,5 @@
 # SaleManager
-## Web App using Angular 9 and .NET Core 2.2
+## Web App using Angular 9 and .NET Core 2.2, Identity ASP Core
 ## To Run App:
 - Client: npm install -> ng serve -o
 - API: Delete files in folder Migrations then run Migrations
