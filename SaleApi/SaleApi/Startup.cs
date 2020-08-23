@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SaleApi.Models;
+using SaleApi.Repositories;
 
 namespace SaleApi
 {
@@ -36,7 +37,7 @@ namespace SaleApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<SaleManagerContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-
+            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<SaleManagerContext>();
 

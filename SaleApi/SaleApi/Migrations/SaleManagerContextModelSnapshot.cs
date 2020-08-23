@@ -189,20 +189,51 @@ namespace SaleApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("SaleApi.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId");
+
+                    b.Property<DateTime>("OrderDate");
+
+                    b.Property<string>("ShipAddress");
+
+                    b.Property<string>("ShipEmail");
+
+                    b.Property<string>("ShipName");
+
+                    b.Property<string>("ShipPhoneNumber");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("SaleApi.Models.Product", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Detail");
+                    b.Property<string>("Description")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Image")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(16)")
                         .HasMaxLength(50);
 
-                    b.Property<double>("Price");
+                    b.Property<decimal>("Price");
 
                     b.HasKey("ID");
 
@@ -264,6 +295,13 @@ namespace SaleApi.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SaleApi.Models.Order", b =>
+                {
+                    b.HasOne("SaleApi.Models.ApplicationUser", "AppUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("AppUserId");
                 });
 #pragma warning restore 612, 618
         }

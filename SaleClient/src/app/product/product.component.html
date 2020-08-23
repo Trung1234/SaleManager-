@@ -1,0 +1,28 @@
+<h1>Product list</h1>
+
+<p *ngIf="!(products$ | async)"><em>Loading...</em></p>
+<p>
+  <a [routerLink]="['/add']" class="btn btn-primary float-right mb-3">New post</a>
+</p>
+
+<table class="table table-sm table-hover" *ngIf="(products$ | async)?.length>0">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of (products$ | async)">
+      <td><a [routerLink]="['/product/', product.id]">{{ product.name }}</a></td>
+      <td>{{ product.description}}</td>
+      <td>
+        <img [src]="product.image">
+      </td>
+      <td>{{ product.price}}+VND</td>
+    </tr>
+  </tbody>
+</table>
+
