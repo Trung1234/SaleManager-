@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../shared/product.service';
 import { Product } from '../models/product';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product',
@@ -14,7 +15,7 @@ export class ProductComponent implements OnInit {
   products$: Observable<Product[]>;
   id: number;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private toastr: ToastrService) {
 
   }
 
@@ -25,5 +26,8 @@ export class ProductComponent implements OnInit {
 
   loadProducts() {
     this.products$ = this.productService.getProducts();
+  }
+  notify(){
+    this.toastr.success("Add to cart succesfully");
   }
 }

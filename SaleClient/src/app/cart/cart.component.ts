@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../shared/product.service';
 import { Cart } from '../models/cart';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
@@ -15,7 +16,8 @@ export class CartComponent implements OnInit {
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
-		private productService: ProductService
+    private productService: ProductService
+    , private toastr: ToastrService
 	) { }
 
 	ngOnInit() {
@@ -49,7 +51,8 @@ export class CartComponent implements OnInit {
 						cart[index] = JSON.stringify(item);
 						localStorage.setItem("cart", JSON.stringify(cart));
 					}
-				}
+        }
+        this.toastr.success("Add to cart succesfully");
 				this.loadCart();
 			} else {
 				this.loadCart();

@@ -18,9 +18,9 @@
       <td>
         <img [src]="product.image" width="50" height="60">
       </td>
-      <td>{{ product.price}}+VND</td>
+      <td>{{ product.price}} VND</td>
       <td>
-        <a [routerLink]="['/cart', { id:product.id }]">Buy Now</a>
+        <a [routerLink]="['/cart', { id:product.id }]" >Buy Now</a>
     </td>
     </tr>
   </tbody>
