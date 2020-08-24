@@ -176,7 +176,7 @@ namespace SaleApi.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OrderDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
@@ -188,7 +188,7 @@ namespace SaleApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_Order", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Order_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,

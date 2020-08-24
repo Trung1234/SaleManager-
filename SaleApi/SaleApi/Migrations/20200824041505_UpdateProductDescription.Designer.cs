@@ -10,8 +10,8 @@ using SaleApi.Models;
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    [Migration("20200823022223_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200824041505_UpdateProductDescription")]
+    partial class UpdateProductDescription
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -193,7 +193,7 @@ namespace SaleApi.Migrations
 
             modelBuilder.Entity("SaleApi.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -211,7 +211,7 @@ namespace SaleApi.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("AppUserId");
 
@@ -225,7 +225,8 @@ namespace SaleApi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255);
+                        .HasColumnType("nvarchar(16)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Image")
                         .HasMaxLength(255);

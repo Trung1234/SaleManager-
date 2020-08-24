@@ -13,7 +13,7 @@ namespace SaleApi.Models
         public int ID { get; set; }
         [Key, Column(TypeName = "varchar(16)"), MaxLength(50)]
         public string Name { get; set; }
-        [StringLength(255)]
+        [Column(TypeName = "nvarchar(255)")]
         public string Description { get; set; }
         [StringLength(255)]
         public string Image { get; set; }

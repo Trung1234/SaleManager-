@@ -9,6 +9,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductService {
+  private products: Product[];
   myAppUrl: string;
   myApiUrl: string;
   httpOptions = {
@@ -19,6 +20,11 @@ export class ProductService {
   constructor(private http: HttpClient) {
       this.myAppUrl = environment.BaseURI;
       this.myApiUrl = 'api/Product/';
+
+      this.getProducts()
+    .subscribe(productData => {
+        this.products  = productData as Product[]
+    })
   }
 
   getProducts(): Observable<Product[]> {
@@ -28,7 +34,25 @@ export class ProductService {
       catchError(this.errorHandler)
     );
   }
+  getProduct(id: number): Observable<Product> {
+    return this.http.get<Product>(this.myAppUrl + this.myApiUrl + id)
+    .pipe(
+      retry(1),
+      catchError(this.errorHandler)
+    );
+}
+find(id: number): Product {
+  return this.products[this.getSelectedIndex(id)];
+}
 
+private getSelectedIndex(id: number) {
+  for (var i = 0; i < this.products.length; i++) {
+      if (this.products[i].id == id) {
+          return i;
+      }
+  }
+  return -1;
+}
   errorHandler(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
