@@ -56,7 +56,7 @@ namespace SaleApi.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(16)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(maxLength: 255, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(255)", nullable: true),
                     Image = table.Column<string>(maxLength: 255, nullable: true),
                     Price = table.Column<decimal>(nullable: false)
                 },
@@ -184,17 +184,46 @@ namespace SaleApi.Migrations
                     ShipAddress = table.Column<string>(nullable: true),
                     ShipEmail = table.Column<string>(nullable: true),
                     ShipPhoneNumber = table.Column<string>(nullable: true),
-                    AppUserId = table.Column<string>(nullable: true)
+                    UserId1 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Order_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetail",
+                columns: table => new
+                {
+                    OrderID = table.Column<int>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    ColorId = table.Column<int>(nullable: false),
+                    SizeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetail", x => x.OrderID);
+                    table.UniqueConstraint("AK_OrderDetail_OrderID_ProductID", x => new { x.OrderID, x.ProductID });
+                    table.ForeignKey(
+                        name: "FK_OrderDetail_Order_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "Order",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetail_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -237,9 +266,14 @@ namespace SaleApi.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_AppUserId",
+                name: "IX_Order_UserId1",
                 table: "Order",
-                column: "AppUserId");
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetail_ProductID",
+                table: "OrderDetail",
+                column: "ProductID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -260,13 +294,16 @@ namespace SaleApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "OrderDetail");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

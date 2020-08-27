@@ -12,6 +12,6 @@ namespace SaleApi.Models
         [Column(TypeName = "nvarchar(150)")]
         public string FullName { get; set; }
  
-        public List<Order> Orders { get; set; }
+        public virtual IEnumerable<Order> Orders { get; set; }
     }
 }

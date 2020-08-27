@@ -24,6 +24,7 @@ namespace SaleApi.Models
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Product>().HasKey(c => new { c.ID });
             modelBuilder.Entity<Order>().HasKey(d => new { d.ID });
+            modelBuilder.Entity<OrderDetail>().HasKey(d => new { d.OrderID });
             //IdentityUserLogin<string>
         }
     }

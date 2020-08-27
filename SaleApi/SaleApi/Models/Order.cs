@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +16,8 @@ namespace SaleApi.Models
         public string ShipAddress { set; get; }
         public string ShipEmail { set; get; }
         public string ShipPhoneNumber { set; get; }
+        public virtual ApplicationUser User { set; get; }
+        public virtual ICollection<OrderDetail> OrderDetails { set; get; }
 
-        public ApplicationUser AppUser { get; set; }
     }
 }

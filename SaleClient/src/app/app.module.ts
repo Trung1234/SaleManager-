@@ -15,6 +15,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
 import { HeaderComponent } from './header/header.component';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HeaderComponent } from './header/header.component';
     HomeComponent,
     ProductComponent,
     CartComponent,
-    HeaderComponent
+    HeaderComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

@@ -195,8 +195,6 @@ namespace SaleApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AppUserId");
-
                     b.Property<DateTime>("OrderDate");
 
                     b.Property<string>("ShipAddress");
@@ -209,11 +207,36 @@ namespace SaleApi.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<string>("UserId1");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("SaleApi.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderID");
+
+                    b.Property<int>("ColorId");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<int>("ProductID");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<int>("SizeId");
+
+                    b.HasKey("OrderID");
+
+                    b.HasAlternateKey("OrderID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("SaleApi.Models.Product", b =>
@@ -299,9 +322,22 @@ namespace SaleApi.Migrations
 
             modelBuilder.Entity("SaleApi.Models.Order", b =>
                 {
-                    b.HasOne("SaleApi.Models.ApplicationUser", "AppUser")
+                    b.HasOne("SaleApi.Models.ApplicationUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("UserId1");
+                });
+
+            modelBuilder.Entity("SaleApi.Models.OrderDetail", b =>
+                {
+                    b.HasOne("SaleApi.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SaleApi.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
