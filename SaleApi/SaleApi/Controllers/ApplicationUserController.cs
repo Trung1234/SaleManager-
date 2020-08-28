@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SaleApi.Models;
+using SaleApi.ViewModel;
 
 namespace SaleApi.Controllers
 {
@@ -33,13 +34,14 @@ namespace SaleApi.Controllers
         [HttpPost]
         [Route("Register")]
         //POST : /api/ApplicationUser/Register
-        public async Task<Object> PostApplicationUser(ApplicationUserModel model)
+        public async Task<Object> PostApplicationUser(ApplicationUserViewModel model)
         {
             var applicationUser = new ApplicationUser()
             {
                 UserName = model.UserName,
                 Email = model.Email,
-                FullName = model.FullName
+                FullName = model.FullName,
+                PhoneNumber = model.PhoneNumber
             };
 
             try

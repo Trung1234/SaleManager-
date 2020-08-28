@@ -71,7 +71,7 @@ export class OrderComponent implements OnInit {
 
   checkOut(): void{
       let order: Order = {
-        userName: this.userDetails.userName,
+        shipName : this.userDetails.userName,
         shipEmail : this.userDetails.email,
         shipAddress: "",
         shipPhoneNumber: "",

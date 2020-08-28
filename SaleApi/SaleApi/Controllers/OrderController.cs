@@ -17,11 +17,13 @@ namespace SaleApi.Controllers
     {
         private readonly SaleManagerContext _context;
         private readonly IDataRepository<Order> _repo;
+        private readonly IDataRepository<OrderDetail> _repoOrderDetail;
 
-        public OrderController(SaleManagerContext context, IDataRepository<Order> repo)
+        public OrderController(SaleManagerContext context, IDataRepository<Order> repo, IDataRepository<OrderDetail> repoOrderDetail)
         {
             _context = context;
             _repo = repo;
+            _repoOrderDetail = repoOrderDetail;
         }
         // GET: api/Products
         [HttpGet]
@@ -31,12 +33,27 @@ namespace SaleApi.Controllers
         }
         // POST: api/Order
         [HttpPost]
-        public async Task<IActionResult> PostOrder([FromBody] OrderViewModel order)
+        public async Task<IActionResult> PostOrder([FromBody] OrderViewModel orderModel)
         {
-            OrderViewModel test = order;
-
-           //repo.Add(order);
-            //r save = await _repo.SaveAsync(order);
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            List<OrderDetail> orderDetails = new List<OrderDetail>();
+            foreach(var orderDetail in orderModel.OrderDetails)
+            {
+                _repoOrderDetail.Add(orderDetail);
+                _repoOrderDetail.SaveAsync(orderDetail);
+                orderDetails.Add(orderDetail);
+            }
+            Order order = new Order
+            {
+                OrderDate = DateTime.Now,
+                ShipAddress = "Ha Noi",
+                ShipEmail = orderModel.ShipEmail,
+                ShipName = orderModel.ShipName,
+                ShipPhoneNumber = "12324214",
+                OrderDetails = orderDetails
+            };
+            _repo.Add(order);
+            await _repo.SaveAsync(order);
 
             return NoContent();
         }

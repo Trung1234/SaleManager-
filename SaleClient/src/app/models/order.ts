@@ -1,7 +1,7 @@
 import { OrderDetail } from './orderdetail';
 
 export class Order {
-  userName: string;
+  shipName: string;
   shipAddress: string;
   shipEmail: string;
   shipPhoneNumber: string;
