@@ -39,36 +39,36 @@ namespace SaleApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var Product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
-            if (Product == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return Ok(Product);
+            return Ok(product);
         }
 
         // PUT: api/Products/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct([FromRoute] int id, [FromBody] Product Product)
+        public async Task<IActionResult> PutProduct([FromRoute] int id, [FromBody] Product product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != Product.ID)
+            if (id != product.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(Product).State = EntityState.Modified;
+            _context.Entry(product).State = EntityState.Modified;
 
             try
             {
-                _repo.Update(Product);
-                var save = await _repo.SaveAsync(Product);
+                _repo.Update(product);
+                var save = await _repo.SaveAsync(product);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -87,17 +87,17 @@ namespace SaleApi.Controllers
 
         // POST: api/Products
         [HttpPost]
-        public async Task<IActionResult> PostProduct([FromBody] Product Product)
+        public async Task<IActionResult> PostProduct([FromBody] Product product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _repo.Add(Product);
-            var save = await _repo.SaveAsync(Product);
+            _repo.Add(product);
+            var save = await _repo.SaveAsync(product);
 
-            return CreatedAtAction("GetProduct", new { id = Product.ID }, Product);
+            return CreatedAtAction("GetProduct", new { id = product.ID }, product);
         }
 
         // DELETE: api/Products/5
@@ -109,16 +109,16 @@ namespace SaleApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var Product = await _context.Products.FindAsync(id);
-            if (Product == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            _repo.Delete(Product);
-            var save = await _repo.SaveAsync(Product);
+            _repo.Delete(product);
+            var save = await _repo.SaveAsync(product);
 
-            return Ok(Product);
+            return Ok(product);
         }
 
         private bool ProductExists(int id)

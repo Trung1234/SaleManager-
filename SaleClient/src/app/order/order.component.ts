@@ -4,6 +4,9 @@ import { ProductService } from '../shared/product.service';
 import { Cart } from '../models/cart';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../shared/user.service';
+import { Order } from '../models/order';
+import { OrderService } from '../shared/order.service';
+import { OrderDetail } from '../models/orderdetail';
 
 @Component({
   selector: 'app-order',
@@ -13,13 +16,12 @@ import { UserService } from '../shared/user.service';
 export class OrderComponent implements OnInit {
   public userDetails;
   public items: Cart[] = [];
+  public orderDetails: OrderDetail[] = [];
 	public total: number = 0;
 
 	constructor(
-		private activatedRoute: ActivatedRoute,
-    private productService: ProductService
-    , private toastr: ToastrService
-    , private service: UserService
+     private service: UserService,
+     private orderService: OrderService
 	) { }
 
 	ngOnInit() {
@@ -32,43 +34,7 @@ export class OrderComponent implements OnInit {
       },
     );
 
-		this.activatedRoute.params.subscribe(params => {
-			var id = params['id'];
-			if (id) {
-				var item: Cart = {
-					product: this.productService.find(id),
-					quantity: 1
-				};
-				if (localStorage.getItem('cart') == null) {
-					let cart: any = [];
-					cart.push(JSON.stringify(item));
-					localStorage.setItem('cart', JSON.stringify(cart));
-				} else {
-					let cart: any = JSON.parse(localStorage.getItem('cart'));
-					let index: number = -1;
-					for (var i = 0; i < cart.length; i++) {
-						let item: Cart = JSON.parse(cart[i]);
-						if (item.product.id == id) {
-							index = i;
-							break;
-						}
-					}
-					if (index == -1) {
-						cart.push(JSON.stringify(item));
-						localStorage.setItem('cart', JSON.stringify(cart));
-					} else {
-						let item: Cart = JSON.parse(cart[index]);
-						item.quantity += 1;
-						cart[index] = JSON.stringify(item);
-						localStorage.setItem("cart", JSON.stringify(cart));
-					}
-        }
-        this.toastr.success("Add to cart succesfully");
-				this.loadCart();
-			} else {
-				this.loadCart();
-			}
-		});
+		this.loadCart();
 	}
 
 	loadCart(): void {
@@ -80,10 +46,14 @@ export class OrderComponent implements OnInit {
 			this.items.push({
 				product: item.product,
 				quantity: item.quantity
+      });
+      this.orderDetails.push({
+				product: item.product,
+				quantity: item.quantity
 			});
 			this.total += item.product.price * item.quantity;
 		}
-	}
+  }
 
 	remove(id: number): void {
 		let cart: any = JSON.parse(localStorage.getItem('cart'));
@@ -97,6 +67,20 @@ export class OrderComponent implements OnInit {
 		}
 		localStorage.setItem("cart", JSON.stringify(cart));
 		this.loadCart();
-	}
+  }
 
+  checkOut(): void{
+      let order: Order = {
+        userName: this.userDetails.userName,
+        shipEmail : this.userDetails.email,
+        shipAddress: "",
+        shipPhoneNumber: "",
+        orderDetails: this.orderDetails
+    };
+    this.orderService.saveOrder(order)
+      .subscribe((data) => {
+
+      });
+  }
 }
+
