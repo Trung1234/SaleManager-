@@ -10,7 +10,7 @@ using SaleApi.Models;
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    [Migration("20200827101302_InitialCreate")]
+    [Migration("20200828164255_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,6 +197,8 @@ namespace SaleApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<DateTime>("OrderDate");
 
                     b.Property<string>("ShipAddress");
@@ -207,22 +209,24 @@ namespace SaleApi.Migrations
 
                     b.Property<string>("ShipPhoneNumber");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Order");
                 });
 
             modelBuilder.Entity("SaleApi.Models.OrderDetail", b =>
                 {
-                    b.Property<int>("OrderID");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ColorId");
+
+                    b.Property<int>("OrderID");
 
                     b.Property<decimal>("Price");
 
@@ -232,9 +236,7 @@ namespace SaleApi.Migrations
 
                     b.Property<int>("SizeId");
 
-                    b.HasKey("OrderID");
-
-                    b.HasAlternateKey("OrderID", "ProductID");
+                    b.HasKey("ID");
 
                     b.HasIndex("ProductID");
 
@@ -324,18 +326,13 @@ namespace SaleApi.Migrations
 
             modelBuilder.Entity("SaleApi.Models.Order", b =>
                 {
-                    b.HasOne("SaleApi.Models.ApplicationUser", "User")
+                    b.HasOne("SaleApi.Models.ApplicationUser")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("SaleApi.Models.OrderDetail", b =>
                 {
-                    b.HasOne("SaleApi.Models.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("SaleApi.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")

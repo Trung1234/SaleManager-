@@ -35,5 +35,10 @@ namespace SaleApi.Repositories
             await _context.SaveChangesAsync();
             return entity;
         }
+        public T SaveChanges(T entity)
+        {
+           _context.SaveChanges();
+            return entity;
+        }
     }
 }

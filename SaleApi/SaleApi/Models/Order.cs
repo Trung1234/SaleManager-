@@ -11,13 +11,11 @@ namespace SaleApi.Models
     {
         public int ID { set; get; }
         public DateTime OrderDate { set; get; }
-        public int UserId { set; get; }
         public string ShipName { set; get; }
         public string ShipAddress { set; get; }
         public string ShipEmail { set; get; }
         public string ShipPhoneNumber { set; get; }
-        public virtual ApplicationUser User { set; get; }
-        public virtual ICollection<OrderDetail> OrderDetails { set; get; }
+        public string UserId { set; get; }
 
     }
 }

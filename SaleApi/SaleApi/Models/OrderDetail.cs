@@ -10,11 +10,9 @@ namespace SaleApi.Models
     public class OrderDetail
     {
         [Key]
-        [Column(Order = 1)]
-        public int OrderID { set; get; }
+        public int ID { set; get; }
 
-        [Key]
-        [Column(Order = 2)]
+        public int OrderID { set; get; }
         public int ProductID { set; get; }
 
         public int Quantity { set; get; }
@@ -24,9 +22,6 @@ namespace SaleApi.Models
         public int ColorId { get; set; }
 
         public int SizeId { get; set; }
-
-        [ForeignKey("OrderID")]
-        public virtual Order Order { set; get; }
 
         [ForeignKey("ProductID")]
         public virtual Product Product { set; get; }

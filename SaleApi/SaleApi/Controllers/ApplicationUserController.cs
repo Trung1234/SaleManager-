@@ -40,8 +40,7 @@ namespace SaleApi.Controllers
             {
                 UserName = model.UserName,
                 Email = model.Email,
-                FullName = model.FullName,
-                PhoneNumber = model.PhoneNumber
+                FullName = model.FullName
             };
 
             try

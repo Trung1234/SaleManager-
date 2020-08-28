@@ -11,5 +11,6 @@ namespace SaleApi.Repositories
         void Update(T entity);
         void Delete(T entity);
         Task<T> SaveAsync(T entity);
+        T SaveChanges(T entity);
     }
 }

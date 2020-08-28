@@ -179,19 +179,19 @@ namespace SaleApi.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OrderDate = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
                     ShipName = table.Column<string>(nullable: true),
                     ShipAddress = table.Column<string>(nullable: true),
                     ShipEmail = table.Column<string>(nullable: true),
                     ShipPhoneNumber = table.Column<string>(nullable: true),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Order_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -201,6 +201,8 @@ namespace SaleApi.Migrations
                 name: "OrderDetail",
                 columns: table => new
                 {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OrderID = table.Column<int>(nullable: false),
                     ProductID = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
@@ -210,14 +212,7 @@ namespace SaleApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetail", x => x.OrderID);
-                    table.UniqueConstraint("AK_OrderDetail_OrderID_ProductID", x => new { x.OrderID, x.ProductID });
-                    table.ForeignKey(
-                        name: "FK_OrderDetail_Order_OrderID",
-                        column: x => x.OrderID,
-                        principalTable: "Order",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_OrderDetail", x => x.ID);
                     table.ForeignKey(
                         name: "FK_OrderDetail_Products_ProductID",
                         column: x => x.ProductID,
@@ -266,9 +261,9 @@ namespace SaleApi.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_UserId1",
+                name: "IX_Order_ApplicationUserId",
                 table: "Order",
-                column: "UserId1");
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetail_ProductID",
@@ -294,19 +289,19 @@ namespace SaleApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Order");
+
+            migrationBuilder.DropTable(
                 name: "OrderDetail");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }
