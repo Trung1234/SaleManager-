@@ -17,16 +17,14 @@ namespace SaleApi.Controllers
     public class OrderController : ControllerBase
     {
         private readonly SaleManagerContext _context;
-        private readonly IDataRepository<Order> _repo;
-        private readonly IDataRepository<OrderDetail> _repoOrderDetail;
+        private readonly IOrderRepository _repo;
         private UserManager<ApplicationUser> _userManager;
         public OrderController(UserManager<ApplicationUser> userManager ,
-            SaleManagerContext context, IDataRepository<Order> repo, IDataRepository<OrderDetail> repoOrderDetail)
+            SaleManagerContext context, IOrderRepository repo)
         {
             _context = context;
             _repo = repo;
             _userManager = userManager;
-            _repoOrderDetail = repoOrderDetail;
         }
         // GET: api/Products
         [HttpGet]
@@ -38,35 +36,10 @@ namespace SaleApi.Controllers
         [HttpPost]
         public IActionResult PostOrder([FromBody] OrderViewModel orderModel)
         {
-            string userId = User.Claims.First(c => c.Type == "UserID").Value;
-        
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;      
             try
             {
-                Order order = new Order
-                {
-                    OrderDate = DateTime.Now,
-                    ShipAddress = "Ha Noi",
-                    ShipEmail = orderModel.ShipEmail,
-                    ShipName = orderModel.ShipName,
-                    ShipPhoneNumber = "12324214",
-                    UserId = userId
-                };
-                _repo.Add(order);
-                Order newOrder = _repo.SaveChanges(order);
-                foreach(var orderDetail in orderModel.OrderDetails)
-                {
-                    OrderDetail detail = new OrderDetail
-                    {
-                        ColorId = 1,
-                        Quantity = orderDetail.Quantity,
-                        Price = orderDetail.Product.Price* orderDetail.Quantity,
-     
-                        ProductID = orderDetail.Product.ID,
-                        OrderID = newOrder.ID
-                    };
-                    _repoOrderDetail.Add(detail);
-                    _repoOrderDetail.SaveChanges(detail);
-                }
+                bool result = _repo.AddOrderViewModel(orderModel, userId);
             }
             catch(Exception ex)
             {

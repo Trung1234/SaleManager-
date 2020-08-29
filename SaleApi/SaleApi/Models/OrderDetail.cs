@@ -24,6 +24,6 @@ namespace SaleApi.Models
         public int SizeId { get; set; }
 
         [ForeignKey("ProductID")]
-        public virtual Product Product { set; get; }
+        public virtual OrderDetail Product { set; get; }
     }
 }

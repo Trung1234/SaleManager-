@@ -37,7 +37,8 @@ namespace SaleApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<SaleManagerContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
+            services.AddScoped(typeof(IProductRepository), typeof(ProductRepository));
+            services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<SaleManagerContext>();
 

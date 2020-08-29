@@ -15,9 +15,9 @@ namespace SaleApi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly SaleManagerContext _context;
-        private readonly IDataRepository<Product> _repo;
+        private readonly IProductRepository _repo;
 
-        public ProductController(SaleManagerContext context, IDataRepository<Product> repo)
+        public ProductController(SaleManagerContext context, IProductRepository repo)
         {
             _context = context;
             _repo = repo;
