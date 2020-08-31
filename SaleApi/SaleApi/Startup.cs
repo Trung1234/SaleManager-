@@ -78,7 +78,7 @@ namespace SaleApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             
             app.Use(async (ctx, next) =>
@@ -104,7 +104,6 @@ namespace SaleApi
             
             app.UseAuthentication();
             app.UseMvc();
-            loggerFactory.AddLog4Net();
         }
     }
 }

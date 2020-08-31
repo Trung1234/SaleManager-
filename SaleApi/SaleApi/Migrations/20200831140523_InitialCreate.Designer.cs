@@ -10,7 +10,7 @@ using SaleApi.Models;
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    [Migration("20200831085106_InitialCreate")]
+    [Migration("20200831140523_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -215,7 +215,7 @@ namespace SaleApi.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("SaleApi.Models.OrderItem", b =>
@@ -240,7 +240,7 @@ namespace SaleApi.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("SaleApi.Models.Product", b =>
@@ -248,6 +248,8 @@ namespace SaleApi.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CategoryID");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(255)");
@@ -266,7 +268,34 @@ namespace SaleApi.Migrations
 
                     b.HasAlternateKey("Name");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("SaleApi.Models.ProductCategory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
+
+                    b.Property<bool?>("HomeFlag");
+
+                    b.Property<string>("Image")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<int?>("ParentID");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("SaleApi.Models.ApplicationUser", b =>
@@ -337,6 +366,13 @@ namespace SaleApi.Migrations
                         .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SaleApi.Models.Product", b =>
+                {
+                    b.HasOne("SaleApi.Models.ProductCategory", "ProductCategory")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryID");
                 });
 #pragma warning restore 612, 618
         }

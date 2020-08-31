@@ -50,20 +50,20 @@ namespace SaleApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "ProductCategories",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(16)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", nullable: true),
-                    Image = table.Column<string>(maxLength: 255, nullable: true),
-                    Price = table.Column<decimal>(nullable: false)
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
+                    Description = table.Column<string>(maxLength: 500, nullable: true),
+                    ParentID = table.Column<int>(nullable: true),
+                    Image = table.Column<string>(maxLength: 256, nullable: true),
+                    HomeFlag = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ID);
-                    table.UniqueConstraint("AK_Products_Name", x => x.Name);
+                    table.PrimaryKey("PK_ProductCategories", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,7 +173,7 @@ namespace SaleApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "Orders",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -188,9 +188,9 @@ namespace SaleApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.ID);
+                    table.PrimaryKey("PK_Orders", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_ApplicationUserId",
+                        name: "FK_Orders_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -198,7 +198,31 @@ namespace SaleApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItem",
+                name: "Products",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(16)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", nullable: true),
+                    Image = table.Column<string>(maxLength: 255, nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    CategoryID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ID);
+                    table.UniqueConstraint("AK_Products_Name", x => x.Name);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductCategories_CategoryID",
+                        column: x => x.CategoryID,
+                        principalTable: "ProductCategories",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItems",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -212,9 +236,9 @@ namespace SaleApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItem", x => x.ID);
+                    table.PrimaryKey("PK_OrderItems", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_OrderItem_Products_ProductID",
+                        name: "FK_OrderItems_Products_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ID",
@@ -261,14 +285,19 @@ namespace SaleApi.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_ApplicationUserId",
-                table: "Order",
+                name: "IX_OrderItems_ProductID",
+                table: "OrderItems",
+                column: "ProductID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_ApplicationUserId",
+                table: "Orders",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_ProductID",
-                table: "OrderItem",
-                column: "ProductID");
+                name: "IX_Products_CategoryID",
+                table: "Products",
+                column: "CategoryID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -289,19 +318,22 @@ namespace SaleApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "OrderItem");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "ProductCategories");
         }
     }
 }

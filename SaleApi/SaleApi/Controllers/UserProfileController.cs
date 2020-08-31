@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SaleApi.Log;
 using SaleApi.Models;
 
 namespace SaleApi.Controllers
@@ -25,6 +26,7 @@ namespace SaleApi.Controllers
         //GET : /api/UserProfile
         public async Task<Object> GetUserProfile()
         {
+            //Logger.LogError();
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
             var user = await _userManager.FindByIdAsync(userId);
             return new

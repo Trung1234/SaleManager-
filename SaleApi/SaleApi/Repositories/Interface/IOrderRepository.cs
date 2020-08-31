@@ -10,7 +10,7 @@ namespace SaleApi.Repositories
     public interface IOrderRepository 
     {
         bool CreateOrder(OrderViewModel orderModel, string userId);
-        bool AddOrderDetails(OrderViewModel orderModel, int orderId);
+        bool AddOrderItems(OrderViewModel orderModel, int orderId);
         Order SaveChanges(Order entity);
     }
 }

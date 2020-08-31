@@ -39,7 +39,7 @@ namespace SaleApi.Repositories
                     transaction.Rollback();
                     return false;
                 }
-                if(!AddOrderDetails(orderModel, orderID))
+                if(!AddOrderItems(orderModel, orderID))
                 {
                     transaction.Rollback();
                     return false;
@@ -49,24 +49,27 @@ namespace SaleApi.Repositories
             return true;
                 
         }
-        public bool AddOrderDetails(OrderViewModel orderModel, int orderId)
+        public bool AddOrderItems(OrderViewModel orderModel, int orderId)
         {
             try
             {
-                foreach (var orderDetail in orderModel.OrderDetails)
+                if(orderModel.OrderDetails != null)
                 {
-                    OrderItem detail = new OrderItem
+                    foreach (var orderDetail in orderModel.OrderDetails)
                     {
-                        ColorId = 1,
-                        Quantity = orderDetail.Quantity,
-                        Price = orderDetail.Product.Price * orderDetail.Quantity,
+                        OrderItem detail = new OrderItem
+                        {
+                            ColorId = 1,
+                            Quantity = orderDetail.Quantity,
+                            Price = orderDetail.Product.Price * orderDetail.Quantity,
 
-                        ProductID = orderDetail.Product.ID,
-                        OrderID = orderId
-                    };
-                    _context.Add(detail);
-                    _context.SaveChanges();
-                }
+                            ProductID = orderDetail.Product.ID,
+                            OrderID = orderId
+                        };
+                        _context.Add(detail);
+                        _context.SaveChanges();
+                    }
+                }              
             }
             catch(Exception ex)
             {
