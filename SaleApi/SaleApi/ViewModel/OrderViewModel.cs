@@ -12,6 +12,6 @@ namespace SaleApi.ViewModel
         public string ShipAddress { set; get; }
         public string ShipEmail { set; get; }
         public string ShipPhoneNumber { set; get; }
-        public OrderDetail[] OrderDetails { set; get; }
+        public OrderItem[] OrderDetails { set; get; }
     }
 }

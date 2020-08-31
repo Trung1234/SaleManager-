@@ -198,7 +198,7 @@ namespace SaleApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetail",
+                name: "OrderItem",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -212,9 +212,9 @@ namespace SaleApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetail", x => x.ID);
+                    table.PrimaryKey("PK_OrderItem", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_OrderDetail_Products_ProductID",
+                        name: "FK_OrderItem_Products_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ID",
@@ -266,8 +266,8 @@ namespace SaleApi.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_ProductID",
-                table: "OrderDetail",
+                name: "IX_OrderItem_ProductID",
+                table: "OrderItem",
                 column: "ProductID");
         }
 
@@ -292,7 +292,7 @@ namespace SaleApi.Migrations
                 name: "Order");
 
             migrationBuilder.DropTable(
-                name: "OrderDetail");
+                name: "OrderItem");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

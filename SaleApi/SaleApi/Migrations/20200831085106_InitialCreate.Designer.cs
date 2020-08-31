@@ -10,7 +10,7 @@ using SaleApi.Models;
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    [Migration("20200828164255_InitialCreate")]
+    [Migration("20200831085106_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,7 +218,7 @@ namespace SaleApi.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("SaleApi.Models.OrderDetail", b =>
+            modelBuilder.Entity("SaleApi.Models.OrderItem", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -240,7 +240,7 @@ namespace SaleApi.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("SaleApi.Models.Product", b =>
@@ -331,7 +331,7 @@ namespace SaleApi.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("SaleApi.Models.OrderDetail", b =>
+            modelBuilder.Entity("SaleApi.Models.OrderItem", b =>
                 {
                     b.HasOne("SaleApi.Models.Product", "Product")
                         .WithMany()

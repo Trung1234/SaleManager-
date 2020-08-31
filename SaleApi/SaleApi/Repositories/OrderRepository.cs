@@ -17,7 +17,7 @@ namespace SaleApi.Repositories
         }
 
        
-        public bool AddOrderViewModel(OrderViewModel orderModel, string userId)
+        public bool CreateOrder(OrderViewModel orderModel, string userId)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -55,7 +55,7 @@ namespace SaleApi.Repositories
             {
                 foreach (var orderDetail in orderModel.OrderDetails)
                 {
-                    OrderDetail detail = new OrderDetail
+                    OrderItem detail = new OrderItem
                     {
                         ColorId = 1,
                         Quantity = orderDetail.Quantity,

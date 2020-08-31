@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SaleApi.Log;
 using SaleApi.Models;
 using SaleApi.Repositories;
 using SaleApi.ViewModel;
@@ -30,7 +32,7 @@ namespace SaleApi.Controllers
         [HttpGet]
         public IEnumerable<Order> GetOrders()
         {
-            return _context.Order.OrderByDescending(p => p.ID);
+            return _context.Orders.OrderByDescending(p => p.ID);
         }
         // POST: api/Order
         [HttpPost]
@@ -39,12 +41,13 @@ namespace SaleApi.Controllers
             string userId = User.Claims.First(c => c.Type == "UserID").Value;      
             try
             {
-                bool result = _repo.AddOrderViewModel(orderModel, userId);
+                bool result = _repo.CreateOrder(orderModel, userId);
             }
             catch(Exception ex)
             {
-
+                Logger.LogError();
             }
+            Logger.LogInfo();
             return NoContent();
         }
 

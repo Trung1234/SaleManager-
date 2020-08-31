@@ -20,5 +20,7 @@ namespace SaleApi.Models
         [Required]
         [DefaultValue(0)]
         public decimal Price { get; set; }
+        [ForeignKey("CategoryID")]
+        public virtual ProductCategory ProductCategory { set; get; }
     }
 }

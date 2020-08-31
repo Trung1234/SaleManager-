@@ -78,8 +78,9 @@ namespace SaleApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            
             app.Use(async (ctx, next) =>
             {
                 await next();
@@ -100,9 +101,10 @@ namespace SaleApi
             app.UseCors(builder =>builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
            .AllowAnyHeader()
            .AllowAnyMethod());
-
+            
             app.UseAuthentication();
             app.UseMvc();
+            loggerFactory.AddLog4Net();
         }
     }
 }

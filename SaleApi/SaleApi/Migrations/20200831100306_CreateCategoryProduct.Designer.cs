@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaleApi.Models;
 
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    partial class SaleManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20200831100306_CreateCategoryProduct")]
+    partial class CreateCategoryProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

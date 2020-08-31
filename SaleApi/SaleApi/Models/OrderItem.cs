@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SaleApi.Models
 {
-    public class OrderDetail
+    public class OrderItem
     {
         [Key]
         public int ID { set; get; }
@@ -24,6 +24,6 @@ namespace SaleApi.Models
         public int SizeId { get; set; }
 
         [ForeignKey("ProductID")]
-        public virtual OrderDetail Product { set; get; }
+        public virtual Product Product { set; get; }
     }
 }

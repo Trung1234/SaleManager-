@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SaleApi.Log;
 using SaleApi.Models;
 using SaleApi.Repositories;
 
@@ -27,6 +29,7 @@ namespace SaleApi.Controllers
         [HttpGet]
         public IEnumerable<Product> GetProducts()
         {
+            Logger.LogInfo();
             return _context.Products.OrderByDescending(p => p.ID);
         }
 

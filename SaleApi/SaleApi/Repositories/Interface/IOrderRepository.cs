@@ -9,8 +9,7 @@ namespace SaleApi.Repositories
 {
     public interface IOrderRepository 
     {
-        //int SaveChanges(Order entity);
-        bool AddOrderViewModel(OrderViewModel orderModel, string userId);
+        bool CreateOrder(OrderViewModel orderModel, string userId);
         bool AddOrderDetails(OrderViewModel orderModel, int orderId);
         Order SaveChanges(Order entity);
     }

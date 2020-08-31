@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../shared/product.service';
 import { Cart } from '../models/cart';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../shared/user.service';
 import { Order } from '../models/order';
 import { OrderService } from '../shared/order.service';
 import { OrderDetail } from '../models/orderdetail';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -20,8 +19,10 @@ export class OrderComponent implements OnInit {
 	public total: number = 0;
 
 	constructor(
+    private router: Router,
      private service: UserService,
-     private orderService: OrderService
+     private orderService: OrderService,
+     private toastr: ToastrService
 	) { }
 
 	ngOnInit() {
@@ -79,7 +80,9 @@ export class OrderComponent implements OnInit {
     };
     this.orderService.saveOrder(order)
       .subscribe((data) => {
-
+        localStorage.removeItem('cart');
+        this.router.navigate(['/product']);
+        this.toastr.success("Create order succesfully");
       });
   }
 }
