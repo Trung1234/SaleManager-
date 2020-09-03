@@ -11,6 +11,7 @@ namespace SaleApi.Repositories
     {
         bool CreateOrder(OrderViewModel orderModel, string userId);
         bool AddOrderItems(OrderViewModel orderModel, int orderId);
+        List<Order> GetOrders(string userId);
         Order SaveChanges(Order entity);
     }
 }

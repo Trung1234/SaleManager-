@@ -10,8 +10,8 @@ using SaleApi.Models;
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    [Migration("20200831140523_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200903023613_UpdateOrder")]
+    partial class UpdateOrder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -208,6 +208,8 @@ namespace SaleApi.Migrations
                     b.Property<string>("ShipName");
 
                     b.Property<string>("ShipPhoneNumber");
+
+                    b.Property<decimal>("TotalPrice");
 
                     b.Property<string>("UserId");
 

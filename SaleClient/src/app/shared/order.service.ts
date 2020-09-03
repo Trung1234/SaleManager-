@@ -20,6 +20,13 @@ export class OrderService {
       this.myAppUrl = environment.BaseURI;
       this.myApiUrl = 'api/Order/';
   }
+  getOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.myAppUrl + this.myApiUrl)
+    .pipe(
+      retry(1),
+      catchError(this.errorHandler)
+    );
+  }
   saveOrder(order): Observable<Order> {
     return this.http.post<Order>(this.myAppUrl + this.myApiUrl, JSON.stringify(order), this.httpOptions)
     .pipe(

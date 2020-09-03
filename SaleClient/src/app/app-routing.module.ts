@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
 import { OrderComponent } from './order/order.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/user/login',pathMatch:'full'},
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent ,canActivate:[AuthGuard]},
   {path:'home',component:HomeComponent,canActivate:[AuthGuard]},
   {path:'product',component: ProductComponent,canActivate:[AuthGuard]},
+  {path:'orderhistory',component: OrderHistoryComponent,canActivate:[AuthGuard]},
   {path:'order',component: OrderComponent,canActivate:[AuthGuard]}
 ];
 

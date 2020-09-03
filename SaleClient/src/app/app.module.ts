@@ -16,6 +16,7 @@ import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
 import { HeaderComponent } from './header/header.component';
 import { OrderComponent } from './order/order.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { OrderComponent } from './order/order.component';
     ProductComponent,
     CartComponent,
     HeaderComponent,
-    OrderComponent
+    OrderComponent,
+    OrderHistoryComponent
   ],
   imports: [
     BrowserModule,

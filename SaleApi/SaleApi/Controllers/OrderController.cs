@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SaleApi.Common;
 using SaleApi.Log;
 using SaleApi.Models;
 using SaleApi.Repositories;
@@ -21,19 +23,26 @@ namespace SaleApi.Controllers
         private readonly SaleManagerContext _context;
         private readonly IOrderRepository _repo;
         private UserManager<ApplicationUser> _userManager;
-        public OrderController(UserManager<ApplicationUser> userManager ,
+        private IHttpContextAccessor _httpContextAccessor;
+        public OrderController(IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager ,
             SaleManagerContext context, IOrderRepository repo)
         {
             _context = context;
             _repo = repo;
             _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
-        // GET: api/Products
+        // GET: api/Order
         [HttpGet]
         public IEnumerable<Order> GetOrders()
         {
-            return _context.Orders.OrderByDescending(p => p.ID);
+            
+            string user = User.Claims.First(c => c.Type == "UserID").Value;
+
+            string userId = "58460ed4-98df-4941-91ab-b426bbe2e11d";
+            return _repo.GetOrders(userId);
         }
+
         // POST: api/Order
         [HttpPost]
         public IActionResult PostOrder([FromBody] OrderViewModel orderModel)

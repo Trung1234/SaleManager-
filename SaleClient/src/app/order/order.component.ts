@@ -6,6 +6,7 @@ import { Order } from '../models/order';
 import { OrderService } from '../shared/order.service';
 import { OrderDetail } from '../models/orderdetail';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-order',
@@ -17,6 +18,7 @@ export class OrderComponent implements OnInit {
   public items: Cart[] = [];
   public orderDetails: OrderDetail[] = [];
 	public total: number = 0;
+  public orders$: Observable<Order[]>;
 
 	constructor(
     private router: Router,
@@ -37,7 +39,9 @@ export class OrderComponent implements OnInit {
 
 		this.loadCart();
 	}
-
+  loadOrders() {
+    this.orders$ = this.orderService.getOrders();
+  }
 	loadCart(): void {
 		this.total = 0;
 		this.items = [];
@@ -76,7 +80,8 @@ export class OrderComponent implements OnInit {
         shipEmail : this.userDetails.email,
         shipAddress: "",
         shipPhoneNumber: "",
-        orderDetails: this.orderDetails
+        orderDetails: this.orderDetails,
+        totalPrice: this.total
     };
     this.orderService.saveOrder(order)
       .subscribe((data) => {

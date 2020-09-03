@@ -5,5 +5,6 @@ export class Order {
   shipAddress: string;
   shipEmail: string;
   shipPhoneNumber: string;
+  totalPrice: number;
   orderDetails : OrderDetail[] ;
 }

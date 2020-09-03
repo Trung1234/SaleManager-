@@ -1,4 +1,5 @@
-﻿using SaleApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SaleApi.Models;
 using SaleApi.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -83,5 +84,21 @@ namespace SaleApi.Repositories
             _context.SaveChanges();
             return entity;
         }
+
+        public List<Order> GetOrders(string userId)
+        {
+            List<Order> result = new List<Order>();
+            try
+            {
+                result = _context.Orders
+                      .FromSql($"GetOrders {userId}")
+                      .ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<Order>();
+            }
+            return result;
+        }             
     }
 }

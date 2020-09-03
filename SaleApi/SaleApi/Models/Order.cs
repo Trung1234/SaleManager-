@@ -15,6 +15,7 @@ namespace SaleApi.Models
         public string ShipAddress { set; get; }
         public string ShipEmail { set; get; }
         public string ShipPhoneNumber { set; get; }
+        public decimal TotalPrice { set; get; }
         public string UserId { set; get; }
 
     }

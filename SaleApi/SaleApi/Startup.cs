@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace SaleApi
         {
             //Inject AppSettings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+           
             services.AddDbContext<SaleManagerContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
             services.AddScoped(typeof(IProductRepository), typeof(ProductRepository));
@@ -51,11 +52,25 @@ namespace SaleApi
                 options.Password.RequiredLength = 4;
             }
             );
-
+    
             services.AddCors();
+            
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddDistributedMemoryCache();
 
+            services.AddSession(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //Jwt Authentication
-
+            services.AddHttpContextAccessor();
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
 
             services.AddAuthentication(x =>
@@ -101,7 +116,7 @@ namespace SaleApi
             app.UseCors(builder =>builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
            .AllowAnyHeader()
            .AllowAnyMethod());
-            
+            app.UseSession();
             app.UseAuthentication();
             app.UseMvc();
         }

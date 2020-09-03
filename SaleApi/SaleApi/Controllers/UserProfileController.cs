@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SaleApi.Common;
 using SaleApi.Log;
 using SaleApi.Models;
 
@@ -16,9 +17,11 @@ namespace SaleApi.Controllers
     public class UserProfileController : ControllerBase
     {
         private UserManager<ApplicationUser> _userManager;
-        public UserProfileController(UserManager<ApplicationUser> userManager)
+        private IHttpContextAccessor _httpContextAccessor;
+        public UserProfileController(IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor; ;
         }
 
         [HttpGet]
@@ -28,6 +31,7 @@ namespace SaleApi.Controllers
         {
             //Logger.LogError();
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            string _sessionStringvalue = _httpContextAccessor.HttpContext.Session.GetString("sessionKeyString");
             var user = await _userManager.FindByIdAsync(userId);
             return new
             {
