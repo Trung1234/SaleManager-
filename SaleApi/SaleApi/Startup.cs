@@ -35,7 +35,12 @@ namespace SaleApi
         {
             //Inject AppSettings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-           
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
             services.AddDbContext<SaleManagerContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
             services.AddScoped(typeof(IProductRepository), typeof(ProductRepository));
@@ -55,12 +60,7 @@ namespace SaleApi
     
             services.AddCors();
             
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
