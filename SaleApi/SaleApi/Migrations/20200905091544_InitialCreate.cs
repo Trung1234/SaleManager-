@@ -183,6 +183,7 @@ namespace SaleApi.Migrations
                     ShipAddress = table.Column<string>(nullable: true),
                     ShipEmail = table.Column<string>(nullable: true),
                     ShipPhoneNumber = table.Column<string>(nullable: true),
+                    TotalPrice = table.Column<decimal>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     ApplicationUserId = table.Column<string>(nullable: true)
                 },

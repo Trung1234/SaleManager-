@@ -1,1 +1,23 @@
 <app-header></app-header>
+<table class="table table-sm table-hover" *ngIf="(orders | async)?.length>0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Order Date</th>
+      <th>Ship Name</th>
+      <th>Ship Address</th>
+      <th>Phone</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of (orders | async)">
+      <td>{{ order.iD }}</td>
+      <td>{{ order.orderDate}} </td>
+      <td>{{ order.shipName}} </td>
+      <td>{{ order.shipAddress}} </td>
+      <td>{{ order.shipPhoneNumber}} </td>
+      <td>{{ order.totalPrice}} </td>
+    </tr>
+  </tbody>
+</table>

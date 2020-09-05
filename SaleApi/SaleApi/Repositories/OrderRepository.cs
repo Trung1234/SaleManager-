@@ -30,6 +30,7 @@ namespace SaleApi.Repositories
                     ShipEmail = orderModel.ShipEmail,
                     ShipName = orderModel.ShipName,
                     ShipPhoneNumber = "12324214",
+                    TotalPrice = orderModel.TotalPrice,
                     UserId = userId
                 };
                 _context.Add(order);

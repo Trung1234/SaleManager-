@@ -35,11 +35,8 @@ namespace SaleApi.Controllers
         // GET: api/Order
         [HttpGet]
         public IEnumerable<Order> GetOrders()
-        {
-            
-            string user = User.Claims.First(c => c.Type == "UserID").Value;
-
-            string userId = "58460ed4-98df-4941-91ab-b426bbe2e11d";
+        {         
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
             return _repo.GetOrders(userId);
         }
 

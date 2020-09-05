@@ -76,6 +76,8 @@ export class OrderComponent implements OnInit {
 
   checkOut(): void{
       let order: Order = {
+        iD: 0,
+        orderDate : new Date(),
         shipName : this.userDetails.userName,
         shipEmail : this.userDetails.email,
         shipAddress: "",
