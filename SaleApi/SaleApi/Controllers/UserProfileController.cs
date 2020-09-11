@@ -31,7 +31,6 @@ namespace SaleApi.Controllers
         {
             //Logger.LogError();
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            string _sessionStringvalue = _httpContextAccessor.HttpContext.Session.GetString("sessionKeyString");
             var user = await _userManager.FindByIdAsync(userId);
             return new
             {
@@ -39,6 +38,31 @@ namespace SaleApi.Controllers
                 user.Email,
                 user.UserName
             };
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [Route("ForAdmin")]
+        public string GetForAdmin()
+        {
+            return "Web method for Admin";
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Customer")]
+        [Route("ForCustomer")]
+        public string GetForCustomer()
+        {
+            return "Web method for Customer";
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "Admin,Customer")]
+        [Route("ForAdminOrCustomer")]
+        public string GetForAdminOrCustomer()
+        {
+            return "Web method for Customer";
         }
     }
 }

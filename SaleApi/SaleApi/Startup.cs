@@ -46,6 +46,7 @@ namespace SaleApi
             services.AddScoped(typeof(IProductRepository), typeof(ProductRepository));
             services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
             services.AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SaleManagerContext>();
 
             services.Configure<IdentityOptions>(options =>
