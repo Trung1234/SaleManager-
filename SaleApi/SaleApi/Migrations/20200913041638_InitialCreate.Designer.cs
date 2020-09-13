@@ -10,7 +10,7 @@ using SaleApi.Models;
 namespace SaleApi.Migrations
 {
     [DbContext(typeof(SaleManagerContext))]
-    [Migration("20200911080759_InitialCreate")]
+    [Migration("20200913041638_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -17,6 +17,8 @@ import { CartComponent } from './cart/cart.component';
 import { HeaderComponent } from './header/header.component';
 import { OrderComponent } from './order/order.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
     CartComponent,
     HeaderComponent,
     OrderComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    ForbiddenComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,
