@@ -6,5 +6,6 @@
     <li class="list-group-item"><strong>Username : </strong>{{userDetails.userName}}</li>
     <li class="list-group-item"><strong>FullName : </strong>{{userDetails.fullName}}</li>
     <li class="list-group-item"><strong>Email : </strong>{{userDetails.email}}</li>
+    <li class="list-group-item" *ngIf="isAdmin"><strong>Phone Number : </strong>{{userDetails.phoneNumber}}</li>
   </ul>
 </div>

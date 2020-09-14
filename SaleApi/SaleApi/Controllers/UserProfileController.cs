@@ -36,7 +36,8 @@ namespace SaleApi.Controllers
             {
                 user.FullName,
                 user.Email,
-                user.UserName
+                user.UserName,
+                user.PhoneNumber
             };
         }
 

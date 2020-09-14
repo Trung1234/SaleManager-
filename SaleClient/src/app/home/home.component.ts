@@ -9,10 +9,15 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   userDetails;
-
+  isAdmin : boolean = false;
   constructor(private router: Router, private service: UserService) { }
 
   ngOnInit() {
+    var payLoad = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+    var userRole = payLoad.role;
+    if(userRole === "Admin"){
+        this.isAdmin = true;
+    }
     this.service.getUserProfile().subscribe(
       res => {
         this.userDetails = res;
